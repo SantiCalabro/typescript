@@ -1,0 +1,25 @@
+Instalar TS + Express + nodemon
+    npm install --save-dev typescript @types/express @types/node nodemon ts-node express
+
+
+"@types/node": "^24.6.0" y  "@types/express": "^5.0.3" son para poder tipar adentro de express
+    npm i -D @types/express
+    npm i -D @types/node
+
+    npm i -D morgan ---> Para usar middlewares creo que era esto
+    npm i -D ts-node ---> Permite ejecutar archivos .ts directamente en node, sin necesidad de compilar previamente. (Node no ejecuta TS por default. Nos la tendríamos que pasar compilando)
+    npm i -D nodemon ---> watcher
+    npm i dotenv ----> Para la gestión de las variables de entorno 
+
+
+tsc --init ---> tsconfig
+    Habilitar
+        Outdir
+        RootDir -> Código fuente , llevar a ./src
+
+    Agregar
+        include -> Cuándo TS haga el build para crear la carpeta dist, qué módulos son los que tiene que buscar y explorar. Antes solo teníamos index.ts. 
+        "include":["src/**/*.ts] ---> dentro de src, cualquier carpeta que exista, cualquier archivo con extensión ts. 
+        "exclude": ["node_modules]
+
+Agregar archivo nodemon.json para hacer al watcher más general y que no se limite solo a index.ts
