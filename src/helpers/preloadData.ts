@@ -1,4 +1,7 @@
-import { AppDataSource, UserModel, VehicleModel } from "../config/data-source";
+
+import { AppDataSource } from "../config/data-source";
+import { UserRepository } from "../repositories/userRepository";
+import { VehicleRepository } from "../repositories/vehicleRepository";
 
 const preloadUsers = [
   {
@@ -60,11 +63,11 @@ const preloadVehicles = [
 export const preloadUserDta = async () => {
   await AppDataSource.manager.transaction(
     async (transactionalEntityManager) => {
-      const users = await UserModel.find();
+      const users = await UserRepository.find();
       if (users.length) return console.log("No se hizo la carga");
 
       for await (const user of preloadUsers) {
-        const newUser = await UserModel.create(user);
+        const newUser = await UserRepository.create(user);
         await transactionalEntityManager.save(newUser);
       }
 
@@ -78,9 +81,9 @@ export const preloadVehicleDta = async () => {
   await queryRunner.connect();
 
   const promises = preloadVehicles.map(async (vehicle) => {
-    const newVehicle = await VehicleModel.create(vehicle);
+    const newVehicle = await VehicleRepository.create(vehicle);
     await queryRunner.manager.save(newVehicle);
-    const user = await UserModel.findOneBy({ id: vehicle.userId });
+    const user = await UserRepository.findOneBy({ id: vehicle.userId });
     if (!user) throw Error("Usuario inexistente");
     user.vehicle = newVehicle;
     await queryRunner.manager.save(user);
@@ -98,28 +101,3 @@ export const preloadVehicleDta = async () => {
     await queryRunner.release();
   }
 };
-
-// export const preloadVehicleDta = async () => {
-//     try {
-//         await AppDataSource.manager.transaction(async (transactionalEntityManager) => {
-
-//             for await (const vehicle of preloadVehicles) {
-//                 const newVehicle = await VehicleModel.create(vehicle)
-//                 await transactionalEntityManager.save(newVehicle)
-
-//                 const user = await UserModel.findOneBy({ id: vehicle.userId })
-//                 if (user) {
-//                     user.vehicle = newVehicle;
-//                     await transactionalEntityManager.save(user);
-//                 } else {
-//                     throw Error('Usuario inexistente')
-//                 }
-//             }
-
-//             console.log('Precarga de vehículos realizada con éxito')
-//         })
-//     } catch (e) {
-//         console.log('Hubo un error')
-//     }
-
-// }

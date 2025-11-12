@@ -1,25 +1,18 @@
-import { UserModel } from './../config/data-source';
 import IUser from "../interfaces/IUser"
-import UserDto from "../dto/userDto";
+import UserDto from "../dto/UserDto";
 import { User } from '../entities/user';
+import { UserRepository } from '../repositories/userRepository';
 
-let users: IUser[] = [{
-    name: 'Jorge',
-    age: 31,
-    email: 'jorge@gmail.com',
-    active: true
-}
-]
 
 export const createUserService = async (userData: UserDto): Promise<User> => {
-    const user = await UserModel.create(userData)
-    UserModel.save(user)
+    const user = await UserRepository.create(userData)
+    UserRepository.save(user)
     return user
 }
 
 
 export const getUsersService = async (): Promise<User[]> => {
-    const users = await UserModel.find({
+    const users = await UserRepository.find({
         relations: {
             vehicle: true
         }
@@ -28,11 +21,6 @@ export const getUsersService = async (): Promise<User[]> => {
 }
 
 export const getUserByIdService = async (id: number): Promise<User | null> => {
-    const user = await UserModel.findOneBy({ id })
+    const user = await UserRepository.findById(id)
     return user
 }
-// export const deleteUserService = async (id: number): Promise<void> => {
-//     users = users.filter((user: IUser) => {
-//         return user.id !== id
-//     })
-// }
