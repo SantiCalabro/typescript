@@ -1,18 +1,18 @@
-Instalar TS + Express + nodemon
+1- npm init
+
+2- Instalar TS + Express + nodemon
     npm install --save-dev typescript @types/express @types/node nodemon ts-node express
-
-
-"@types/node": "^24.6.0" y  "@types/express": "^5.0.3" son para poder tipar adentro de express
-    npm i -D @types/express
-    npm i -D @types/node
-
-    npm i -D morgan ---> Para usar middlewares creo que era esto
+    
+    "@types/node": "^24.6.0" y  "@types/express": "^5.0.3" son para poder tipar adentro de express
     npm i -D ts-node ---> Permite ejecutar archivos .ts directamente en node, sin necesidad de compilar previamente. (Node no ejecuta TS por default. Nos la tendríamos que pasar compilando)
     npm i -D nodemon ---> watcher
+
+
+3-  npm i -D morgan ---> Para usar middlewares creo que era esto
     npm i dotenv ----> Para la gestión de las variables de entorno 
+    npm i reflect-metadata typeorm pg prettier
 
-
-tsc --init ---> tsconfig
+4- tsc --init ---> tsconfig
     Habilitar
         Outdir
         RootDir -> Código fuente , llevar a ./src
@@ -22,4 +22,12 @@ tsc --init ---> tsconfig
         "include":["src/**/*.ts] ---> dentro de src, cualquier carpeta que exista, cualquier archivo con extensión ts. 
         "exclude": ["node_modules]
 
-Agregar archivo nodemon.json para hacer al watcher más general y que no se limite solo a index.ts
+5- Agregar archivo nodemon.json para hacer al watcher más general y que no se limite solo a index.ts
+6- Agregar estos scripts al package.json
+   "build": "tsc",
+    "start": "nodemon ./src/index.ts"
+7- Crear carpeta ./src/routes/index.ts e importar el Router (interface de Express)
+8- Crear archivo ./src/server.ts para importar express y crear el servidor. 
+9- archivo ./config/data-source.ts
+10- Crear archivo indext.ts e inicializar la App importando el servidor recién creado (función asíncrona)
+11- Crear base de datos
